@@ -81,20 +81,19 @@ const Cysec = () => {
         <div className="max-w-7xl mx-auto px-6">
 
         {/* Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-2 py-20">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-[#004aad] text-sm font-medium mb-4">
-            Features
+            A-CySec Simulation
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-            We Offer Wide Range
+            Build a Cyber-Aware Student
             <br />
-            Of Services
+           Community
           </h2>
 
           <p className="mt-5 text-gray-500 max-w-2xl mx-auto">
-            Empower your institution with AI-powered cyber readiness,
-            simulations, analytics, and practical cybersecurity learning.
+            Empower your institution with AI-powered cyber simulations, phishing campaigns, behavioral analytics, and practical cybersecurity readiness assessments.
           </p>
         </div>
 
@@ -104,11 +103,11 @@ const Cysec = () => {
           {/* Gauge Card */}
           <div className="bg-white rounded-3xl border border-gray-200 p-5 shadow-sm">
             <h3 className="font-bold text-xl text-gray-900">
-              Fast & Scalable
+              Experiential Learning
             </h3>
 
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Experience lightning-fast performance built to grow with your institution.
+              Support learning through participation, observation, and practical engagement.
             </p>
 
             <div className="bg-[#f7f9ff] rounded-2xl h-56 flex items-center justify-center">
@@ -129,11 +128,11 @@ const Cysec = () => {
           {/* Integration Card */}
           <div className="bg-white rounded-3xl border border-gray-200 p-5 shadow-sm">
             <h3 className="font-bold text-xl text-gray-900">
-              Custom Integrations
+              Skill Enhancement
             </h3>
 
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Connect effortlessly with existing institutional systems.
+              Equip students with essential cybersecurity awareness and digital literacy skills.
             </p>
 
             <div className="bg-[#f7f9ff] rounded-2xl h-56 relative overflow-hidden">
@@ -168,11 +167,11 @@ const Cysec = () => {
           {/* Bar Chart */}
           <div className="bg-white rounded-3xl border border-gray-200 p-5 shadow-sm">
             <h3 className="font-bold text-xl text-gray-900">
-              Smart Insights
+              Outcome-Based Education
             </h3>
 
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Analytics and performance tracking powered by AI.
+             Enable measurable learning outcomes through simulation-driven activities.
             </p>
 
             <div className="bg-[#f7f9ff] rounded-2xl h-56 flex items-end gap-4 px-8 pb-8">
@@ -191,11 +190,11 @@ const Cysec = () => {
           {/* Automation */}
           <div className="bg-white rounded-3xl border border-gray-200 p-5 shadow-sm">
             <h3 className="font-bold text-xl text-gray-900">
-              Intelligent Automation
+Student Capability Development
             </h3>
 
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Automate simulations, awareness campaigns, and reporting.
+Improve awareness, critical thinking, and responsible technology usage.
             </p>
 
             <div className="bg-[#f7f9ff] rounded-2xl h-64 relative overflow-hidden">
@@ -212,11 +211,11 @@ const Cysec = () => {
           {/* Workflow Chart */}
           <div className="bg-white rounded-3xl border border-gray-200 p-5 shadow-sm">
             <h3 className="font-bold text-xl text-gray-900">
-              Seamless Workflow
+Institutional Innovation
             </h3>
 
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Monitor institutional cyber readiness in real time.
+Demonstrate commitment to modern and industry-aligned learning methodologies.
             </p>
 
             <div className="bg-[#f7f9ff] rounded-2xl h-64 p-6">

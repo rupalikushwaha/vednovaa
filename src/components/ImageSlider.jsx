@@ -3,42 +3,36 @@ import { useState, useEffect, useCallback, useRef } from "react";
 const slides = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80",
+    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/1_hleppi.jpg",
     title: "Slide 01",
     description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&q=80",
+    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/4_ufnkuj.jpg",
     title: "Slide 02",
     description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1400&q=80",
+    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/5_ffu5nn.jpg",
     title: "Slide 03",
     description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=1400&q=80",
+    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/3_hl8usy.jpg",
     title: "Slide 04",
     description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
   },
   {
     id: 5,
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80",
+    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/2_hn36uq.jpg",
     title: "Slide 05",
     description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
   },
-  {
-    id: 6,
-    image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1400&q=80",
-    title: "Slide 06",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
-  },
+  
 ];
-
 export default function ImageSlider() {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);

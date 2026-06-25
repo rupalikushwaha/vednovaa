@@ -21,20 +21,20 @@ const Servicebanner = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              Онлайн
+              VEDNOVAA
             </div>
 
             <div className="space-y-2">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-wide uppercase leading-tight">
-                Школа программирования
+                Placement-Ready Skills for Today's
               </h2>
 
               <div className="inline-block relative">
                 <span className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-wide uppercase">
-                  для детей от 9 до 15 лет
+                  Students.
                 </span>
 
-                <div className="absolute left-0 bottom-[-8px] h-1.5 w-full bg-[#60A5FA] rounded-full"></div>
+                <div className="absolute left-0 bottom-[-15px] h-1.5 w-full bg-[#60A5FA] rounded-full"></div>
               </div>
             </div>
 
@@ -42,20 +42,20 @@ const Servicebanner = () => {
               <div className="flex items-start gap-2">
                 <span className="text-[#60A5FA] text-xl font-bold">+</span>
                 <p className="text-sm sm:text-base text-white/90 leading-snug">
-                  Научим вашего ребёнка программировать уже на первом занятии
+                  80% Practical and 20% Theory Learning
                 </p>
               </div>
 
               <div className="flex items-start gap-2">
                 <span className="text-[#60A5FA] text-xl font-bold">+</span>
                 <p className="text-sm sm:text-base text-white/90 leading-snug">
-                  Каждое занятие проходит в группах от 2 до 4 человек
+                  Skills, Confidence & Career Readiness
                 </p>
               </div>
             </div>
 
             <button className="bg-white hover:bg-slate-100 text-[#004aad] font-bold px-8 py-3 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 uppercase tracking-wider text-xs sm:text-sm">
-              Попробовать бесплатно
+              Get Started
             </button>
           </div>
 
@@ -65,9 +65,9 @@ const Servicebanner = () => {
   <div className="relative w-[85px] h-[85px] bg-white rounded-full shadow-lg flex flex-col items-center justify-center">
 
     <p className="text-[#5B4CF0] text-[11px] font-extrabold uppercase text-center leading-tight">
-      СКОРЕЕ
+      Want
       <br />
-      К НАМ!
+      to learn?
     </p>
 
     <span className="text-xl mt-2">😊</span>
