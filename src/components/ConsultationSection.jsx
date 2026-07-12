@@ -68,17 +68,17 @@ const ConsultationSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-50 to-white">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-blue-50 to-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Heading Card */}
-        <div className="bg-white rounded-[40px] shadow-xl p-12 text-center mb-8">
+        <div className="bg-white rounded-[28px] sm:rounded-[40px] shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 text-center mb-8">
 
-          <div className="inline-flex items-center px-6 py-2 rounded-full bg-gradient-to-r from-blue-100 to-[#004aad] text-white text-sm font-medium shadow-lg mb-8">
+          <div className="inline-flex items-center px-4 sm:px-6 py-2 rounded-full bg-gradient-to-r from-blue-100 to-[#004aad] text-white text-xs sm:text-sm font-medium shadow-lg mb-6 sm:mb-8">
             Student Challenges
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-bold leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight">
             <span className="text-gray-400">
               Most Common
             </span>
@@ -89,8 +89,41 @@ const ConsultationSection = () => {
           </h2>
         </div>
 
-        {/* Main Problem Circle */}
-        <div className="relative bg-white rounded-[40px] shadow-xl min-h-[750px] overflow-hidden">
+        {/* Problem Cards — simple stacked grid, below lg */}
+        <div className="lg:hidden bg-white rounded-[28px] sm:rounded-[40px] shadow-xl p-6 sm:p-8">
+
+          <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="bg-gradient-to-br from-blue-100 to-[#004aad]/10 rounded-full p-6 sm:p-7">
+              <AlertTriangle size={48} className="text-[#004aad]" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {problems.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-3xl shadow-md border border-blue-100 p-5"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-[#004aad] flex items-center justify-center text-white flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Problem Circle — original radial diagram, lg and up */}
+        <div className="hidden lg:block relative bg-white rounded-[40px] shadow-xl min-h-[750px] overflow-hidden">
 
           {/* Background Lines */}
           <div className="absolute inset-0 opacity-10">

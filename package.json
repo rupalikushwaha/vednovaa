@@ -12,9 +12,20 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest --runInBand",
+    "perf:lh:raw": "npx -y lighthouse http://localhost:1234 --output=json --output-path=./reports/lighthouse.json --chrome-flags=\"--headless\" --only-categories=performance,accessibility,seo,best-practices",
+    "perf:lh": "node perf/run-lighthouse.js",
+    "perf:metrics": "node perf/collect-metrics.js"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.0",
+    "@babel/preset-react": "^7.25.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "babel-jest": "^29.7.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "parcel": "^2.16.4"
   },
   "dependencies": {
@@ -23,8 +34,36 @@
     "lucide-react": "^1.18.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "react-icons": "^5.6.0",
     "react-router-dom": "^6.30.4",
     "tailwindcss": "^4.2.2"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.[jt]sx?$": [
+        "babel-jest",
+        {
+          "presets": [
+            [
+              "@babel/preset-env",
+              {
+                "targets": {
+                  "node": "current"
+                }
+              }
+            ],
+            [
+              "@babel/preset-react",
+              {
+                "runtime": "automatic"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }

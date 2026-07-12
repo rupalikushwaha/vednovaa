@@ -1,250 +1,459 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import {
+  Target,
+  ShieldCheck,
+  FileSearch,
+  Rocket,
+  Cpu,
+  Trophy,
+  ShieldAlert,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 
-const slides = [
+// ── Content: Vednovaa's full workflow ─────────────────────────────────
+const STEPS = [
   {
-    id: 1,
-    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/1_hleppi.jpg",
-    title: "Slide 01",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
+    number: "01",
+    title: "Diagnostic Call",
+    description:
+      "A 15-minute discussion with the HOD, TPO, or Professor to identify placement challenges and assess current student readiness.",
+    icon: Target,
   },
   {
-    id: 2,
-    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/4_ufnkuj.jpg",
-    title: "Slide 02",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
+    number: "02",
+    title: "PRA",
+    subtitle: "Placement Readiness Assessment",
+    description:
+      "A structured management and student audit that measures placement preparedness through discussions and practical evaluation.",
+    icon: ShieldCheck,
   },
   {
-    id: 3,
-    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/5_ffu5nn.jpg",
-    title: "Slide 03",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
+    number: "03",
+    title: "Report",
+    description:
+      "A comprehensive readiness report highlighting strengths, gaps, priorities, and actionable recommendations.",
+    icon: FileSearch,
   },
   {
-    id: 4,
-    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/3_hl8usy.jpg",
-    title: "Slide 04",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
+    number: "04",
+    title: "PRAP",
+    subtitle: "Placement Readiness Accelerator Program",
+    description:
+      "A 2-day industry-focused, hands-on learning program designed to bridge the gap between academics and real-world expectations.",
+    icon: Rocket,
   },
   {
-    id: 5,
-    image: "https://res.cloudinary.com/dmjunqp6p/image/upload/v1782289965/2_hn36uq.jpg",
-    title: "Slide 05",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.",
+    number: "05",
+    title: "TDE",
+    subtitle: "Talent Development Engine",
+    description:
+      "An AI-powered assessment platform that tracks student decisions, performance, and skill progression throughout practical activities.",
+    icon: Cpu,
   },
-  
+  {
+    number: "06",
+    title: "Hackathon",
+    description:
+      "A real-world challenge where students apply their knowledge to solve industry problems while demonstrating teamwork and critical thinking.",
+    icon: Trophy,
+  },
+  {
+    number: "07",
+    title: "A-CySec Simulation",
+    description:
+      "An AI-powered cyber awareness platform that strengthens institutional cyber readiness through realistic phishing and social engineering simulations.",
+    icon: ShieldAlert,
+  },
 ];
-export default function ImageSlider() {
-  const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const [direction, setDirection] = useState("next");
-  const [textKey, setTextKey] = useState(0);
-  const autoRef = useRef(null);
 
-  const stopAuto = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-  };
+const AUTOPLAY_MS = 3500;
+const COUNT = STEPS.length;
+const HALF = COUNT / 2;
+const BLUE = "#004aad";
 
-  const startAuto = useCallback(() => {
-    stopAuto();
-    autoRef.current = setInterval(() => {
-      go("next");
-    }, 3500);
-  }, []);
+// normalize i-active into the shortest signed offset around the circle
+const normalizedOffset = (i, active) => {
+  let diff = i - active;
+  if (diff > HALF) diff -= COUNT;
+  if (diff < -HALF) diff += COUNT;
+  return diff;
+};
 
-  useEffect(() => {
-    startAuto();
-    return () => stopAuto();
-  }, [startAuto]);
-
-  const go = useCallback(
-    (dir) => {
-      if (animating) return;
-      setAnimating(true);
-      setDirection(dir);
-      setTextKey((k) => k + 1);
-      setCurrent((c) =>
-        dir === "next" ? (c + 1) % slides.length : (c - 1 + slides.length) % slides.length
-      );
-      setTimeout(() => setAnimating(false), 700);
-    },
-    [animating]
+// ── Responsive breakpoint hook (no dependency on Tailwind's md:/lg: ── */
+// arbitrary-value classes, so sizing is guaranteed to work regardless of
+// how Tailwind is configured on the host page). ─────────────────────────
+function useViewport() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1280
   );
+  useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return width;
+}
 
-  const handlePrev = () => { stopAuto(); go("prev"); startAuto(); };
-  const handleNext = () => { stopAuto(); go("next"); startAuto(); };
+export default function ImageSlider() {
+  const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef(null);
+  const width = useViewport();
 
-  // The 3 upcoming thumbnail cards (next slides after current)
-  const thumbIndices = [1, 2, 3].map((offset) => (current + offset) % slides.length);
+  const isMobile = width < 640;
+  const isTablet = width >= 640 && width < 1024;
+
+  // all sizing derives from viewport, not from CSS breakpoints,
+  // so nothing depends on the host page's Tailwind build config
+  const cardWidth = isMobile ? 210 : isTablet ? 250 : 290;
+  const cardHeight = isMobile ? 300 : isTablet ? 340 : 380;
+  const stageHeight = isMobile ? 340 : isTablet ? 380 : 420;
+  const xStep = cardWidth * 0.78;
+  const zStep = isMobile ? 90 : 150;
+  const rotateDeg = isMobile ? 20 : 30;
+  const maxVisibleOffset = isMobile ? 1 : 2;
+
+  const goTo = useCallback((i) => setActive(((i % COUNT) + COUNT) % COUNT), []);
+
+  // ── Autoplay ─────────────────────────────────────────────────
+  useEffect(() => {
+    if (isPaused) return;
+    timerRef.current = setInterval(() => {
+      setActive((prev) => (prev + 1) % COUNT);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(timerRef.current);
+  }, [isPaused]);
+
+  const handleManualNav = (i) => goTo(i);
 
   return (
-    <div className="relative w-auto h-screen overflow-hidden bg-white font-sans select-none m-10  ">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@300;400&display=swap');
-
-        .slide-bg {
-          position: absolute; inset: 0;
-          background-size: cover; background-position: center;
-          transition: opacity 0.7s ease;
-        }
-        .slide-bg.active   { opacity: 1; z-index: 1; }
-        .slide-bg.inactive { opacity: 0; z-index: 0; }
-
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(36px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .text-animate {
-          animation: fadeSlideUp 0.65s cubic-bezier(0.22,1,0.36,1) both;
-        }
-        .text-animate-delay {
-          animation: fadeSlideUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.12s both;
-        }
-
-        @keyframes thumbIn {
-          from { opacity: 0; transform: translateX(60px) scale(0.9); }
-          to   { opacity: 1; transform: translateX(0) scale(1); }
-        }
-        .thumb-card {
-          animation: thumbIn 0.55s cubic-bezier(0.22,1,0.36,1) both;
-        }
-        .thumb-card:nth-child(1) { animation-delay: 0s; }
-        .thumb-card:nth-child(2) { animation-delay: 0.08s; }
-        .thumb-card:nth-child(3) { animation-delay: 0.16s; }
-
-        .nav-btn {
-          width: 48px; height: 48px;
-          border-radius: 50%;
-          background: rgba(0,0,0,0.55);
-          border: 2px solid rgba(255,255,255,0.35);
-          color: white;
-          display: flex; align-items: center; justify-content: center;
-          cursor: pointer;
-          transition: background 0.2s, transform 0.15s, border-color 0.2s;
-          backdrop-filter: blur(6px);
-        }
-        .nav-btn:hover {
-          background: rgba(255,255,255,0.18);
-          border-color: rgba(255,255,255,0.7);
-          transform: scale(1.08);
-        }
-        .nav-btn:active { transform: scale(0.95); }
-
-        .slide-title {
-          font-family: 'Oswald', sans-serif;
-          font-size: clamp(2.8rem, 7vw, 5.5rem);
-          font-weight: 700;
-          color: #fff;
-          line-height: 1;
-          letter-spacing: -0.01em;
-        }
-        .slide-desc {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.85rem, 1.5vw, 1rem);
-          color: rgba(255,255,255,0.82);
-          font-weight: 300;
-          max-width: 520px;
-          line-height: 1.65;
-        }
-      `}</style>
-
-      {/* Background slides */}
-      {slides.map((slide, i) => (
-        <div
-          key={slide.id}
-          className={`slide-bg ${i === current ? "active" : "inactive"}`}
-          style={{ backgroundImage: `url(${slide.image})` }}
-        />
-      ))}
-
-      {/* Dark gradient overlay — bottom and right */}
+    <section style={{ width: "100%", padding: "56px 24px" }}>
       <div
-        className="absolute inset-0 z-10 pointer-events-none"
         style={{
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 45%, transparent 75%), linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 55%)",
+          maxWidth: 1100,
+          margin: "0 auto",
+          background: "#DBEAFE",
+          borderRadius: 32,
+          padding: isMobile ? "40px 20px" : "56px 40px",
         }}
-      />
-
-      {/* Thumbnail cards — right side, vertically centered */}
-      <div
-        key={`thumbs-${current}`}
-        className="absolute right-0 top-1/2 z-20 flex flex-row items-center gap-3 pr-0"
-        style={{ transform: "translateY(-50%)" }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
-        {thumbIndices.map((idx, pos) => (
-          <div
-            key={`${idx}-${pos}`}
-            className="thumb-card overflow-hidden rounded-2xl shadow-2xl cursor-pointer"
+      {/* ── Header ─────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 640, margin: "0 auto 48px", textAlign: "center" }}>
+        <p
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.35em",
+            color: BLUE,
+            fontFamily: "'IBM Plex Mono', monospace",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          Process
+        </p>
+        <h2
+          style={{
+            color: BLUE,
+            fontFamily: "'Sora', sans-serif",
+            fontWeight: 600,
+            fontSize: isMobile ? 28 : 36,
+            lineHeight: 1.2,
+            marginBottom: 16,
+          }}
+        >
+          The Right Diagnosis First
+        </h2>
+        <p style={{ color: "#64748B", fontSize: 16, lineHeight: 1.6, margin: 0 }}>
+          From diagnosis to accelerator programs to simulations — a complete
+          pipeline from placement readiness to real industry-facing skill.
+        </p>
+      </div>
+
+      {/* ── 3D Carousel ────────────────────────────────────────── */}
+      <div
+        style={{
+          position: "relative",
+          maxWidth: 1000,
+          margin: "0 auto",
+          height: stageHeight,
+          perspective: 1400,
+          overflow: "hidden",
+        }}
+      >
+        {STEPS.map((step, i) => {
+          const offset = normalizedOffset(i, active);
+          const absOffset = Math.abs(offset);
+          if (absOffset > maxVisibleOffset) return null;
+
+          const isActive = offset === 0;
+          const Icon = step.icon;
+
+          const translateX = offset * xStep;
+          const translateZ = -absOffset * zStep;
+          const rotateY = -offset * rotateDeg;
+          const scale = 1 - absOffset * 0.12;
+          const opacity = Math.max(1 - absOffset * 0.38, 0.25);
+          const zIndex = 20 - absOffset;
+
+          return (
+            <div
+              key={step.number}
+              onClick={() => handleManualNav(i)}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                width: cardWidth,
+                height: cardHeight,
+                borderRadius: 24,
+                cursor: "pointer",
+                overflow: "hidden",
+                transition: "transform 0.7s ease, opacity 0.7s ease",
+                transform: `translate(-50%, -50%) translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                opacity,
+                zIndex,
+                background: isActive ? "#FFFFFF" : "#F8FAFC",
+                border: isActive ? `1px solid rgba(0,74,173,0.15)` : "1px solid #EEF2F6",
+                boxShadow: isActive
+                  ? "0 30px 60px -20px rgba(0,74,173,0.35), 0 10px 25px -10px rgba(0,74,173,0.25), 0 0 0 1px rgba(0,74,173,0.04)"
+                  : "0 15px 35px -15px rgba(0,74,173,0.18)",
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
+              }}
+            >
+              {/* ── per-card decorative background ── */}
+              <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    height: 3,
+                    background: isActive
+                      ? "linear-gradient(90deg, transparent, #004aad, transparent)"
+                      : "transparent",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: -64,
+                    right: -64,
+                    width: 192,
+                    height: 192,
+                    borderRadius: "9999px",
+                    background:
+                      "radial-gradient(circle, rgba(0,74,173,0.16) 0%, rgba(0,74,173,0.04) 55%, transparent 75%)",
+                    filter: "blur(6px)",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: -56,
+                    left: -56,
+                    width: 128,
+                    height: 128,
+                    borderRadius: "9999px",
+                    background: "radial-gradient(circle, rgba(0,74,173,0.10) 0%, transparent 70%)",
+                    filter: "blur(4px)",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 30%)",
+                  }}
+                />
+                <svg
+                  style={{ position: "absolute", top: 16, left: 16, opacity: isActive ? 0.35 : 0.15 }}
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                >
+                  <path d="M1 7V1H7" fill="none" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+                <svg
+                  style={{
+                    position: "absolute",
+                    bottom: 16,
+                    right: 16,
+                    opacity: isActive ? 0.35 : 0.15,
+                  }}
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                >
+                  <path d="M17 11V17H11" fill="none" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  padding: isMobile ? 20 : 28,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: 12,
+                    letterSpacing: "0.15em",
+                    marginBottom: 18,
+                    color: isActive ? BLUE : "#CBD5E1",
+                  }}
+                >
+                  {step.number}
+                </span>
+
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 18,
+                    background: isActive ? "rgba(0,74,173,0.1)" : "#F1F5F9",
+                  }}
+                >
+                  <Icon size={20} strokeWidth={1.75} color={isActive ? BLUE : "#94A3B8"} />
+                </div>
+
+                <h3
+                  style={{
+                    fontFamily: "'Sora', sans-serif",
+                    fontWeight: 600,
+                    lineHeight: 1.35,
+                    color: isActive ? BLUE : "#94A3B8",
+                    fontSize: isActive ? (isMobile ? 17 : 19) : 14,
+                    marginBottom: isActive && step.subtitle ? 4 : 12,
+                  }}
+                >
+                  {step.title}
+                </h3>
+
+                {isActive && step.subtitle && (
+                  <p
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: 11,
+                      letterSpacing: "0.03em",
+                      color: "#94A3B8",
+                      marginBottom: 12,
+                    }}
+                  >
+                    {step.subtitle}
+                  </p>
+                )}
+
+                {isActive && (
+                  <p style={{ color: "#64748B", fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>
+                    {step.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Arrows + progress dots ─────────────────────────────── */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 20,
+          marginTop: 40,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <button
+            onClick={() => handleManualNav(active - 1)}
+            aria-label="Previous step"
             style={{
-              width: pos === 0 ? "clamp(110px,12vw,160px)" : pos === 1 ? "clamp(90px,9vw,130px)" : "clamp(70px,6vw,100px)",
-              height: pos === 0 ? "clamp(160px,18vw,230px)" : pos === 1 ? "clamp(130px,15vw,190px)" : "clamp(100px,11vw,150px)",
-              opacity: pos === 0 ? 1 : pos === 1 ? 0.75 : 0.45,
-              marginRight: pos === 2 ? "-30px" : "0",
-              flexShrink: 0,
+              width: 40,
+              height: 40,
+              borderRadius: "9999px",
+              border: "1px solid #E2E8F0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#64748B",
+              background: "transparent",
+              cursor: "pointer",
+              transition: "color 0.3s, border-color 0.3s",
             }}
-            onClick={() => {
-              stopAuto();
-              const targetIdx = thumbIndices[pos];
-              setCurrent(targetIdx);
-              setTextKey((k) => k + 1);
-              setAnimating(false);
-              startAuto();
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = BLUE;
+              e.currentTarget.style.color = BLUE;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "#E2E8F0";
+              e.currentTarget.style.color = "#64748B";
             }}
           >
-            <img
-              src={slides[idx].image}
-              alt={slides[idx].title}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Bottom-left: Title + Description */}
-      <div className="absolute bottom-0 left-0 z-20 px-8 sm:px-14 pb-28 sm:pb-32">
-        <div key={`title-${textKey}`} className="text-animate slide-title mb-3">
-          {slides[current].title}
+            <ArrowLeft size={17} />
+          </button>
+          <button
+            onClick={() => handleManualNav(active + 1)}
+            aria-label="Next step"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "9999px",
+              border: "1px solid #E2E8F0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#64748B",
+              background: "transparent",
+              cursor: "pointer",
+              transition: "color 0.3s, border-color 0.3s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = BLUE;
+              e.currentTarget.style.color = BLUE;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "#E2E8F0";
+              e.currentTarget.style.color = "#64748B";
+            }}
+          >
+            <ArrowRight size={17} />
+          </button>
         </div>
-        <div key={`desc-${textKey}`} className="text-animate-delay slide-desc">
-          {slides[current].description}
-        </div>
-      </div>
 
-      {/* Bottom-center: Prev / Next buttons */}
-      <div className="absolute bottom-8 left-1/2 z-20 flex items-center gap-4" style={{ transform: "translateX(-50%)" }}>
-        <button className="nav-btn" onClick={handlePrev} aria-label="Previous">
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-
-        {/* Dot indicators */}
-        <div className="flex items-center gap-2">
-          {slides.map((_, i) => (
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {STEPS.map((step, i) => (
             <button
-              key={i}
-              onClick={() => { stopAuto(); setCurrent(i); setTextKey((k) => k + 1); startAuto(); }}
-              aria-label={`Go to slide ${i + 1}`}
+              key={step.number}
+              onClick={() => handleManualNav(i)}
+              aria-label={`Go to ${step.title}`}
               style={{
-                width: i === current ? "24px" : "8px",
-                height: "8px",
+                height: 6,
+                width: active === i ? 24 : 6,
                 borderRadius: "9999px",
-                background: i === current ? "#fff" : "rgba(255,255,255,0.4)",
                 border: "none",
+                background: active === i ? BLUE : "#E2E8F0",
                 cursor: "pointer",
-                transition: "all 0.35s cubic-bezier(0.22,1,0.36,1)",
-                padding: 0,
+                transition: "all 0.3s ease",
               }}
             />
           ))}
         </div>
-
-        <button className="nav-btn" onClick={handleNext} aria-label="Next">
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
       </div>
-    </div>
+      </div>
+    </section>
   );
 }

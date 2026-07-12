@@ -1,24 +1,47 @@
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import Header from "../components/Header";
-import ImageSlider from "../components/ImageSlider";
-import AboutUs from "../components/AboutUs";
+
+const ImageSlider = lazy(() => import("../components/ImageSlider"));
+const AboutUs = lazy(() => import("../components/AboutUs"));
 
 function Home() {
+  const [loadBelowFold, setLoadBelowFold] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !window.matchMedia("(max-width: 1023px)").matches;
+  });
 
-return (
+  useEffect(() => {
+    if (loadBelowFold) return undefined;
 
-<div>
+    const load = () => setLoadBelowFold(true);
 
-<Header/>
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(load, { timeout: 1600 });
+      return () => window.cancelIdleCallback(id);
+    }
 
-<ImageSlider/>
+    const id = window.setTimeout(load, 1200);
+    return () => window.clearTimeout(id);
+  }, [loadBelowFold]);
 
-<AboutUs/>
+  return (
 
+    <div>
 
-</div>
+      <Header />
 
-)
+      {loadBelowFold ? (
+        <Suspense fallback={<div className="lg:hidden min-h-[2600px]" aria-hidden="true" />}>
+          <ImageSlider />
+          <AboutUs />
+        </Suspense>
+      ) : (
+        <div className="lg:hidden min-h-[2600px]" aria-hidden="true" />
+      )}
 
+    </div>
+
+  );
 }
 
 export default Home;

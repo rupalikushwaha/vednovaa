@@ -2,83 +2,90 @@ import React from "react";
 import ContactSection from "./ContactSection";
 
 const CallSection = () => {
-  return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-blue-100 via-[#004aad] to-[#003b8a] min-h-[600px]">
+  const scrollToContact = () => {
+    const target = document.getElementById("contact-section");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
+  return (
+    <section className="bg-white py-8 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        <div className="relative min-h-[430px] overflow-hidden rounded-[24px] bg-gradient-to-br from-blue-100 via-[#004aad] to-[#003b8a] sm:min-h-[600px] sm:rounded-[40px]">
           {/* Vertical Lines */}
           <div className="absolute inset-0 opacity-15">
-            <div className="h-full w-full flex justify-around">
+            <div className="flex h-full w-full justify-around">
               {[...Array(12)].map((_, i) => (
-                <div key={i} className="w-px bg-white h-full" />
+                <div key={i} className="h-full w-px bg-white" />
               ))}
             </div>
           </div>
 
-          {/* Floating Cards */}
-          <div className="absolute -top-6 -left-6 rotate-[-12deg] bg-white rounded-3xl shadow-2xl p-6 w-48">
-            <h4 className="text-gray-800 font-semibold text-xl">
-              Design Concept
-            </h4>
+          {/* Floating Cards — hidden on phones, would collide with each other below sm */}
+          <div className="absolute -top-6 -left-6 hidden w-48 rotate-[-12deg] rounded-3xl bg-white p-6 shadow-2xl sm:block">
+            <h4 className="text-xl font-semibold text-gray-800">Design Concept</h4>
           </div>
 
-          <div className="absolute -top-6 -right-6 rotate-[12deg] bg-white rounded-3xl shadow-2xl p-6 w-60">
-            <h4 className="text-gray-800 font-semibold text-xl">
-              Complete Development
-            </h4>
+          <div className="absolute -top-6 -right-6 hidden w-60 rotate-[12deg] rounded-3xl bg-white p-6 shadow-2xl sm:block">
+            <h4 className="text-xl font-semibold text-gray-800">Complete Development</h4>
           </div>
 
           {/* Decorative Pins */}
-          <div className="absolute bottom-24 left-8">
-            <div className="w-6 h-6 rounded-full bg-blue-500 shadow-lg"></div>
+          <div className="absolute bottom-16 left-4 sm:bottom-24 sm:left-8">
+            <div className="h-4 w-4 rounded-full bg-blue-500 shadow-lg sm:h-6 sm:w-6"></div>
           </div>
 
-          <div className="absolute bottom-24 right-8">
-            <div className="w-6 h-6 rounded-full bg-blue-200 shadow-lg"></div>
+          <div className="absolute bottom-16 right-4 sm:bottom-24 sm:right-8">
+            <div className="h-4 w-4 rounded-full bg-blue-200 shadow-lg sm:h-6 sm:w-6"></div>
           </div>
 
           {/* Center Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-24">
-
+          <div className="relative z-10 flex min-h-[430px] flex-col items-center justify-center px-4 py-10 text-center sm:min-h-[600px] sm:px-6 sm:py-20 md:py-24">
             {/* Profile Badge */}
-            <div className="bg-white rounded-full px-4 py-2 shadow-lg flex items-center gap-3 mb-10">
+            <div className="mb-6 flex w-full max-w-[260px] items-center justify-center gap-3 rounded-full bg-white/95 px-3 py-2 shadow-lg backdrop-blur sm:mb-8 sm:max-w-[320px] sm:px-4 sm:py-2">
               <img
                 src="https://i.pravatar.cc/40"
                 alt="profile"
-                className="w-8 h-8 rounded-full"
+                className="h-8 w-8 rounded-full"
+                loading="lazy"
+                decoding="async"
               />
-              <span className="text-gray-700 font-medium">
-                Career Counselor
+              <span className="text-sm font-medium text-gray-700 sm:text-base">
+                Wanna Know More?
               </span>
             </div>
 
             {/* Main Heading */}
-            <h2 className="text-white font-extrabold leading-none">
-              <span className="block text-5xl md:text-7xl lg:text-8xl">
+            <h2 className="w-full max-w-3xl font-extrabold leading-[0.95] tracking-tight text-white">
+              <span className="block text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl">
                 Let's Have a
               </span>
 
-              <span className="block text-6xl md:text-8xl lg:text-[110px] mt-3">
+              <span className="mt-2 block text-[2.55rem] sm:mt-3 sm:text-6xl md:text-8xl lg:text-[110px]">
                 30-Min Call
               </span>
             </h2>
 
             {/* Description */}
-            <p className="mt-8 text-white/90 text-lg md:text-2xl max-w-2xl leading-relaxed">
-              Let's discuss your career goals, learning roadmap,
-              industry opportunities, and the right program for your future.
+            <p className="mt-5 max-w-[32rem] text-sm leading-relaxed text-white/90 sm:mt-8 sm:text-lg md:text-2xl">
+              Let's discuss your career goals, learning roadmap, industry opportunities,
+              and the right program for your future.
             </p>
 
             {/* CTA Button */}
-            <button className="mt-10 bg-white text-[#004aad] font-bold px-10 py-4 rounded-full text-lg hover:scale-105 transition duration-300 shadow-xl">
+            <button
+              onClick={scrollToContact}
+              className="mt-7 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#004aad] shadow-xl transition duration-300 hover:scale-[1.02] sm:mt-10 sm:px-10 sm:py-4 sm:text-base"
+            >
               Book Free Consultation
             </button>
           </div>
-          {/* Bottom White Shapes */}
-          <div className="absolute -bottom-12 -left-12 w-52 h-52 bg-white rounded-[40px] rotate-12"></div>
 
-          <div className="absolute -bottom-12 -right-12 w-52 h-52 bg-white rounded-[40px] -rotate-12"></div>
+          {/* Bottom White Shapes */}
+          <div className="absolute -bottom-10 -left-10 hidden h-36 w-36 rotate-12 rounded-[28px] bg-white sm:-bottom-12 sm:-left-12 sm:block sm:h-52 sm:w-52 sm:rounded-[40px]"></div>
+
+          <div className="absolute -bottom-10 -right-10 hidden h-36 w-36 -rotate-12 rounded-[28px] bg-white sm:-bottom-12 sm:-right-12 sm:block sm:h-52 sm:w-52 sm:rounded-[40px]"></div>
         </div>
       </div>
     </section>

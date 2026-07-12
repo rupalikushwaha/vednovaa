@@ -33,56 +33,51 @@ const programs = [
 
 const ProgramSection = () => {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-5">
-        
+    <section className="py-14 sm:py-16 md:py-20 lg:py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-5">
+
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900">
+        <div className="text-center mb-10 sm:mb-12 md:mb-14">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
             CORE Framework
           </h2>
 
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
             Specialized programs designed to prepare students for
             future-ready careers across multiple domains.
           </p>
         </div>
 
         {/* Cards */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           {programs.map((program, index) => (
             <div
               key={index}
-              className={`${program.bg} rounded-3xl p-8 text-white overflow-hidden relative min-h-[300px]`}
+              className={`${program.bg} rounded-3xl p-6 sm:p-8 text-white overflow-hidden relative min-h-[280px] sm:min-h-[300px] flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-2`}
             >
               {/* Decorative Circle */}
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
+              <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-full"></div>
 
-              <div className="flex justify-between items-center h-full">
-                
-                {/* Left Content */}
-                <div className="max-w-[55%] relative z-10">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                    {program.title}
-                  </h3>
-
-                  <p className="text-white/90 text-sm leading-relaxed mb-6">
-                    {program.description}
-                  </p>
-
-                  <button className="bg-white text-gray-900 font-semibold px-5 py-3 rounded-xl hover:scale-105 transition-all duration-300">
-                    Learn More
-                  </button>
-                </div>
-
-                {/* Right Letter */}
-                <div className="flex items-center justify-center w-[220px] h-[220px]">
-                  <span className="text-[180px] md:text-[220px] font-black text-white/95 leading-none select-none">
-                    {program.letter}
-                  </span>
-                </div>
-
+              {/* Letter — comes first/top on mobile, switches to the right on sm+ */}
+              <div className="order-1 sm:order-2 relative z-10 flex items-center justify-center w-full sm:w-[150px] md:w-[220px] h-[100px] sm:h-[150px] md:h-[220px]">
+                <span className="text-[90px] sm:text-[130px] md:text-[180px] lg:text-[220px] font-black text-white/95 leading-none select-none">
+                  {program.letter}
+                </span>
               </div>
+
+              {/* Content */}
+              <div className="order-2 sm:order-1 w-full sm:max-w-[55%] relative z-10 text-center sm:text-left">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
+                  {program.title}
+                </h3>
+
+                <p className="text-white/90 text-sm leading-relaxed mb-4 sm:mb-6">
+                  {program.description}
+                </p>
+
+                
+              </div>
+
             </div>
           ))}
         </div>
