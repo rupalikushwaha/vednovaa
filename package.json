@@ -10,8 +10,10 @@
   "author": "rupali",
   "type": "commonjs",
   "scripts": {
+    "prestart": "node scripts/copy-public.js",
     "start": "parcel index.html",
     "build": "parcel build index.html",
+    "postbuild": "node scripts/copy-public.js",
     "test": "jest --runInBand",
     "perf:lh:raw": "npx -y lighthouse http://localhost:1234 --output=json --output-path=./reports/lighthouse.json --chrome-flags=\"--headless\" --only-categories=performance,accessibility,seo,best-practices",
     "perf:lh": "node perf/run-lighthouse.js",
