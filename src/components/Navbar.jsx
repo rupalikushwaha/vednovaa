@@ -27,7 +27,7 @@ const Navbar = () => {
         <Link to="/" onClick={() => setIsOpen(false)}>
           <img
             src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_auto/logo_qf2x22"
-            alt="Logo"
+            alt="Vednovaa"
             className="h-9 w-auto sm:h-10 lg:h-12"
             loading="eager"
             decoding="async"

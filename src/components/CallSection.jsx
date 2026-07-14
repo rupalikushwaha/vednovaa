@@ -46,7 +46,7 @@ const CallSection = () => {
             <div className="mb-6 flex w-full max-w-[260px] items-center justify-center gap-3 rounded-full bg-white/95 px-3 py-2 shadow-lg backdrop-blur sm:mb-8 sm:max-w-[320px] sm:px-4 sm:py-2">
               <img
                 src="https://i.pravatar.cc/40"
-                alt="profile"
+                alt=""
                 className="h-8 w-8 rounded-full"
                 loading="lazy"
                 decoding="async"

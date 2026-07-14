@@ -75,6 +75,10 @@ const DepartmentBenefits = () => {
                   src={item.image}
                   alt={item.title}
                   className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain"
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

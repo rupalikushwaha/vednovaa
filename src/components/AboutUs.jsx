@@ -172,8 +172,10 @@ className="bg-white rounded-2xl sm:rounded-3xl h-20 sm:h-24 md:h-32 flex items-c
 
 <img
 src={logo}
-alt=""
+alt={i === 0 ? "The Oxford College of Engineering" : i === 1 ? "CB Bhandari Jain College" : ""}
 className="w-9 sm:w-12 md:w-16"
+width="128"
+height="128"
 loading="lazy"
 decoding="async"
 />
@@ -202,6 +204,8 @@ className="bg-white rounded-3xl w-32 h-44 flex items-center justify-center"
 src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_128/v1780510841/Screenshot_2026-06-03_232105_lyjla7.png"
 alt=""
 className="w-16"
+loading="lazy"
+decoding="async"
 />
 
 </div>
@@ -273,6 +277,8 @@ className="bg-white rounded-3xl w-32 h-44 flex items-center justify-center"
 src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_128/v1780510841/Screenshot_2026-06-03_232105_lyjla7.png"
 alt=""
 className="w-16"
+loading="lazy"
+decoding="async"
 />
 
 </div>
@@ -299,6 +305,8 @@ className="bg-white rounded-2xl sm:rounded-3xl h-20 sm:h-24 md:h-32 flex items-c
 src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_128/v1780510841/Screenshot_2026-06-03_232105_lyjla7.png"
 alt=""
 className="w-9 sm:w-12 md:w-16"
+loading="lazy"
+decoding="async"
 />
 
 </div>

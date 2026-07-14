@@ -151,15 +151,15 @@ const CBBhandari = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527614/WhatsApp_Image_2026-07-08_at_7.51.42_PM_wdrobs.jpg" alt="CB Bhandari Jain College AI and placement readiness session"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527614/WhatsApp_Image_2026-07-08_at_7.51.42_PM_wdrobs.jpg" alt="CB Bhandari Jain College AI and placement readiness session" loading="lazy" decoding="async"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_nzk3wk.jpg" alt="MBA students participating in Vednovaa's industry readiness session"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_nzk3wk.jpg" alt="MBA students participating in Vednovaa's industry readiness session" loading="lazy" decoding="async"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_1_utjori.jpg" alt="Interactive Vednovaa session at CB Bhandari Jain College"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_1_utjori.jpg" alt="Interactive Vednovaa session at CB Bhandari Jain College" loading="lazy" decoding="async"/>
             </div>
           </div>
         </div>

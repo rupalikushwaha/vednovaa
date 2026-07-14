@@ -107,7 +107,7 @@ const Header = () => {
           <img
             src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_120/v1780163979/topia_webxtn.png"
             className="absolute -right-12 bottom-7 w-[120px] pointer-events-none"
-            alt="Graduation Cap"
+            alt=""
             loading="lazy"
             decoding="async"
           />
@@ -126,7 +126,7 @@ const Header = () => {
             <img
               src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_400/v1776194465/Gemini_Generated_Image_v0ukpwv0ukpwv0uk-removebg-preview_q3uugf.png"
               className="h-170 w-90 mr-20"
-              alt="Students"
+              alt="Students preparing for industry-ready careers"
               loading="eager"
               decoding="async"
             />
@@ -158,7 +158,7 @@ const Header = () => {
               )}
               <div className="absolute top-6 right-8 z-10">
                 <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center shadow-lg p-3">
-                  <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740502/Svabix-removebg-preview_zsl6zp.png" alt="logo" className="object-contain" loading="lazy" decoding="async" />
+                  <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740502/Svabix-removebg-preview_zsl6zp.png" alt="Svabix" className="object-contain" loading="lazy" decoding="async" />
                 </div>
               </div>
               <div className="relative z-10 text-left">
@@ -184,7 +184,7 @@ const Header = () => {
               )}
               <div className="absolute top-6 right-8 z-10">
                 <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center shadow-lg p-3">
-                  <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740512/screen2skills-removebg-preview_rotqfg.png" alt="logo" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
+                  <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740512/screen2skills-removebg-preview_rotqfg.png" alt="Screen2Skills" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
                 </div>
               </div>
               <div className="relative z-10 text-left">
@@ -259,7 +259,7 @@ const Header = () => {
               <img
                 src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_320/v1776194465/Gemini_Generated_Image_v0ukpwv0ukpwv0uk-removebg-preview_q3uugf.png"
                 className="relative z-[1] h-[285px] min-[390px]:h-[305px] sm:h-[360px] md:h-[405px] w-auto"
-                alt="Students"
+                alt=""
                 width="160"
                 height="320"
                 loading="eager"
@@ -288,7 +288,7 @@ const Header = () => {
               <img
                 src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_96/v1780163979/topia_webxtn.png"
                 className="absolute -right-1 sm:-right-4 md:-right-5 bottom-9 sm:bottom-8 md:bottom-8 w-[42px] min-[390px]:w-[50px] sm:w-[64px] md:w-[76px] pointer-events-none z-[1]"
-                alt="Graduation Cap"
+                alt=""
                 loading="lazy"
                 decoding="async"
               />
@@ -326,7 +326,7 @@ const Header = () => {
                 )}
                 <div className="absolute top-4 right-4 z-10">
                   <div className="rounded-full bg-white w-10 h-10 min-[390px]:w-11 min-[390px]:h-11 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg p-2">
-                    <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_96/v1776740502/Svabix-removebg-preview_zsl6zp.png" alt="logo" className="object-contain" loading="lazy" decoding="async" />
+                    <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_96/v1776740502/Svabix-removebg-preview_zsl6zp.png" alt="" className="object-contain" loading="lazy" decoding="async" />
                   </div>
                 </div>
                 <div className="relative z-10 max-w-[76%] text-left">
@@ -352,7 +352,7 @@ const Header = () => {
                 )}
                 <div className="absolute top-3 right-4 z-10">
                   <div className="rounded-full bg-white w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg p-2">
-                    <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740512/screen2skills-removebg-preview_rotqfg.png" alt="logo" className="w-6 h-6 object-contain" loading="lazy" decoding="async" />
+                    <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_150/v1776740512/screen2skills-removebg-preview_rotqfg.png" alt="" className="w-6 h-6 object-contain" loading="lazy" decoding="async" />
                   </div>
                 </div>
                 <div className="relative z-10 text-left">

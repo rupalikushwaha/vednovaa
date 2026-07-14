@@ -134,16 +134,16 @@ const OxfordCollege = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.26_PM_xmgk7s.jpg" alt="Oxford College students attending Vednovaa's AI and machine learning bootcamp"/>
+             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.26_PM_xmgk7s.jpg" alt="Oxford College students attending Vednovaa's AI and machine learning bootcamp" loading="lazy" decoding="async"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
              
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528809/WhatsApp_Image_2026-07-08_at_10.07.24_PM_ayhl8a.jpg" alt="Practical AI bootcamp session at The Oxford College of Engineering"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528809/WhatsApp_Image_2026-07-08_at_10.07.24_PM_ayhl8a.jpg" alt="Practical AI bootcamp session at The Oxford College of Engineering" loading="lazy" decoding="async"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.25_PM_hnkf8p.jpg" alt="Vednovaa instructor presenting an AI industry use case at Oxford College"/>
+             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.25_PM_hnkf8p.jpg" alt="Vednovaa instructor presenting an AI industry use case at Oxford College" loading="lazy" decoding="async"/>
             </div>
           </div>
         </div>

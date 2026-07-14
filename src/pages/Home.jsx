@@ -51,7 +51,7 @@ function Home() {
           url: canonical,
           logo: socialImage,
           sameAs: [
-            "https://www.instagram.com/vednovaa?utm_source=qr&igsh=bnZqdGpiN2Fyamti",
+            "https://www.instagram.com/vednovaa/",
             "https://t.me/vednovaa",
             "https://wa.me/message/O6Q7APSKJLWFA1",
             "https://www.linkedin.com/company/vednovaa/",

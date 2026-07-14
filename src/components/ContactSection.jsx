@@ -67,7 +67,7 @@ const ContactSection = () => {
               <div className="relative hidden items-center justify-center overflow-hidden bg-slate-50 lg:flex lg:px-0 lg:py-0">
                 <img
                   src="https://res.cloudinary.com/dmjunqp6p/image/upload/e_trim,f_auto,q_85,w_1200/v1781596402/ChatGPT_Image_Jun_16__2026__12_49_53_PM-removebg-preview_lrqsmg.png"
-                  alt="Contact"
+                  alt=""
                   className="pointer-events-none absolute left-[90%] top-1/2 z-20 h-full w-full max-w-none -translate-x-1/2 -translate-y-1/2 scale-[1.28] object-contain object-center select-none"
                   loading="lazy"
                   decoding="async"
@@ -99,6 +99,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       placeholder="Enter your full name"
                       autoComplete="name"
+                      required
                       className="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-[#004aad]"
                     />
                   </div>
@@ -115,6 +116,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       placeholder="Enter your email"
                       autoComplete="email"
+                      required
                       className="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-[#004aad]"
                     />
                   </div>
@@ -131,6 +133,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       placeholder="Enter your phone number"
                       autoComplete="tel"
+                      required
                       className="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-[#004aad]"
                     />
                   </div>
@@ -146,16 +149,17 @@ const ContactSection = () => {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Please enter the details of your request..."
+                      required
                       className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-[#004aad]"
                     />
                   </div>
 
                   {status === "error" && (
-                    <p className="mb-3 text-sm text-red-600">{errorMessage}</p>
+                    <p className="mb-3 text-sm text-red-600" role="alert">{errorMessage}</p>
                   )}
 
                   {status === "success" && (
-                    <p className="mb-3 text-sm font-medium text-emerald-600">
+                    <p className="mb-3 text-sm font-medium text-emerald-600" role="status" aria-live="polite">
                       Thanks for reaching out. We will get back to you shortly.
                     </p>
                   )}
