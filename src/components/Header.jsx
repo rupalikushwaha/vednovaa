@@ -275,9 +275,9 @@ const Header = () => {
             <div className="absolute left-0 bottom-0 w-[48%] sm:w-[46%] bg-white rounded-[24px] sm:rounded-[30px] md:rounded-[36px] p-3.5 min-[390px]:p-4 sm:p-5 md:p-6 shadow-xl
                     flex flex-col justify-between h-[180px] min-[390px]:h-[190px] sm:h-[220px] md:h-[260px] z-[2]">
               <div className="text-[#004aad] space-y-1 min-[390px]:space-y-1.5">
-                <h1 className="text-[16px] min-[390px]:text-[17px] sm:text-xl md:text-2xl font-black leading-tight uppercase tracking-wide">
+                <div className="text-[16px] min-[390px]:text-[17px] sm:text-xl md:text-2xl font-black leading-tight uppercase tracking-wide">
                   JOIN THE <br /> VEDNOVAA <br /> WORLD
-                </h1>
+                </div>
                 <p className="text-[9px] min-[390px]:text-[10px] sm:text-xs md:text-sm font-semibold text-[#004aad] leading-tight">
                   Faster Learning, <br /> Easy remembering
                 </p>

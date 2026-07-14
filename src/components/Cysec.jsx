@@ -54,9 +54,9 @@ const Cysec = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
-            <button className="bg-[#004aad] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold shadow-lg hover:scale-105 transition text-sm sm:text-base">
-               <Link  to="/contactus">Request Demo</Link>
-            </button>
+            <Link to="/contactus" className="bg-[#004aad] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold shadow-lg hover:scale-105 transition text-sm sm:text-base">
+              Request Demo
+            </Link>
 
            
           </div>

@@ -39,9 +39,9 @@ const Servicebanner = () => {
             </div>
 
             <div className="space-y-2">
-              <h2 className="vn-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase leading-[1.08]">
+              <h1 className="vn-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase leading-[1.08]">
                 Placement-Ready Skills for Today's
-              </h2>
+              </h1>
 
               <div className="inline-block relative">
                 <span className="vn-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase">

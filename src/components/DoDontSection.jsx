@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -346,7 +345,6 @@ function DinoGame() {
 const DoDontSection = () => {
   const [isDo, setIsDo] = useState(true);
   const [activeCard, setActiveCard] = useState(1);
-  const navigate = useNavigate();
 
   return (
     <section className="bg-white py-14 sm:py-16 md:py-20 px-3 sm:px-4 mt-8">
@@ -355,9 +353,9 @@ const DoDontSection = () => {
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start mb-10 sm:mb-12 lg:mb-14 gap-6">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
               When people
-            </h2>
+            </h1>
 
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2">
               <span
@@ -387,10 +385,10 @@ const DoDontSection = () => {
             </div>
           </div>
 
-          <button className="mt-2 lg:mt-0 bg-gray-900 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl flex items-center gap-2 hover:scale-105 transition text-sm sm:text-base whitespace-nowrap">
-          <Link to="/contactus">Let's build something</Link>
+          <Link to="/contactus" className="mt-2 lg:mt-0 bg-gray-900 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl flex items-center gap-2 hover:scale-105 transition text-sm sm:text-base whitespace-nowrap">
+            Let's build something
             <ArrowUpRight size={18} />
-          </button>
+          </Link>
         </div>
 
         {/* Content */}
@@ -401,12 +399,10 @@ const DoDontSection = () => {
               const isActive = activeCard === item.id;
 
               return (
-                <div
+                <Link
   key={item.id}
-  onClick={() => {
-    setActiveCard(item.id);
-    navigate(item.path);
-  }}
+  to={item.path}
+  onClick={() => setActiveCard(item.id)}
   className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-300 border ${
     isActive
       ? "bg-[#004aad] text-white shadow-xl sm:scale-105"
@@ -425,7 +421,7 @@ const DoDontSection = () => {
                   <p className={`text-sm leading-relaxed ${isActive ? "text-blue-100" : "text-gray-600"}`}>
                     {item.desc}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>

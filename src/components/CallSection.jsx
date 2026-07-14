@@ -57,7 +57,7 @@ const CallSection = () => {
             </div>
 
             {/* Main Heading */}
-            <h2 className="w-full max-w-3xl font-extrabold leading-[0.95] tracking-tight text-white">
+            <h1 className="w-full max-w-3xl font-extrabold leading-[0.95] tracking-tight text-white">
               <span className="block text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl">
                 Let's Have a
               </span>
@@ -65,7 +65,7 @@ const CallSection = () => {
               <span className="mt-2 block text-[2.55rem] sm:mt-3 sm:text-6xl md:text-8xl lg:text-[110px]">
                 30-Min Call
               </span>
-            </h2>
+            </h1>
 
             {/* Description */}
             <p className="mt-5 max-w-[32rem] text-sm leading-relaxed text-white/90 sm:mt-8 sm:text-lg md:text-2xl">

@@ -1,9 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const OxfordCollege = () => {
+  const title = "Oxford College AI and Machine Learning Bootcamp | Vednovaa";
+  const description = "Explore Vednovaa's practical AI and machine learning bootcamp at The Oxford College of Engineering, featuring live coding and industry use cases.";
+  const canonical = "https://vednovaa.com/oxford-college";
+  const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">
+      <Helmet>
+        <title>{title}</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
+        <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:site_name" content="Vednovaa" /><meta property="og:image" content={socialImage} />
+      </Helmet>
 
       {/* Header */}
       <div className="bg-[#004aad] py-14 px-6 sm:px-10 mt-20">
@@ -125,16 +134,16 @@ const OxfordCollege = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.26_PM_xmgk7s.jpg"/>
+             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.26_PM_xmgk7s.jpg" alt="Oxford College students attending Vednovaa's AI and machine learning bootcamp"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
              
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528809/WhatsApp_Image_2026-07-08_at_10.07.24_PM_ayhl8a.jpg"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528809/WhatsApp_Image_2026-07-08_at_10.07.24_PM_ayhl8a.jpg" alt="Practical AI bootcamp session at The Oxford College of Engineering"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.25_PM_hnkf8p.jpg"/>
+             <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783528807/WhatsApp_Image_2026-07-08_at_10.07.25_PM_hnkf8p.jpg" alt="Vednovaa instructor presenting an AI industry use case at Oxford College"/>
             </div>
           </div>
         </div>

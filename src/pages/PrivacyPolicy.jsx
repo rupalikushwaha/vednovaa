@@ -1,9 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const PrivacyPolicy = () => {
+  const title = "Privacy Policy | Vednovaa";
+  const description = "Read Vednovaa's privacy policy and understand how information collected through the website is handled.";
+  const canonical = "https://vednovaa.com/privacy-policy";
+  const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">
+      <Helmet>
+        <title>{title}</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
+        <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:site_name" content="Vednovaa" /><meta property="og:image" content={socialImage} />
+      </Helmet>
       {/* Header band */}
       <div className="bg-[#004aad] py-14 px-6 sm:px-10 mt-20 ">
         <div className="max-w-4xl mx-auto">

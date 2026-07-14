@@ -1,9 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const CBBhandari = () => {
+  const title = "CB Bhandari Jain College AI and Placement Readiness Session | Vednovaa";
+  const description = "See how Vednovaa helped CB Bhandari Jain College MBA students understand practical AI applications, employer expectations and placement readiness.";
+  const canonical = "https://vednovaa.com/cb-bhandari";
+  const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">
+      <Helmet>
+        <title>{title}</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
+        <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:site_name" content="Vednovaa" /><meta property="og:image" content={socialImage} />
+      </Helmet>
 
       {/* Header */}
       <div className="bg-[#004aad] py-14 px-6 sm:px-10 mt-20">
@@ -142,15 +151,15 @@ const CBBhandari = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527614/WhatsApp_Image_2026-07-08_at_7.51.42_PM_wdrobs.jpg"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527614/WhatsApp_Image_2026-07-08_at_7.51.42_PM_wdrobs.jpg" alt="CB Bhandari Jain College AI and placement readiness session"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_nzk3wk.jpg"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_nzk3wk.jpg" alt="MBA students participating in Vednovaa's industry readiness session"/>
             </div>
 
             <div className="h-56 rounded-xl bg-gray-200 flex items-center justify-center">
-              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_1_utjori.jpg"/>
+              <img src="https://res.cloudinary.com/dmjunqp6p/image/upload/v1783527613/WhatsApp_Image_2026-07-08_at_7.51.41_PM_1_utjori.jpg" alt="Interactive Vednovaa session at CB Bhandari Jain College"/>
             </div>
           </div>
         </div>

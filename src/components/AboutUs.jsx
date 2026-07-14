@@ -215,17 +215,17 @@ className="w-16"
 
 <div className="flex-1 bg-slate-100 rounded-3xl flex flex-col justify-center items-center py-8 sm:py-10 px-4">
 
-<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase text-slate-900 text-center">
+<h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase text-slate-900 text-center">
 
 WE'VE WORKED WITH
 
-</h1>
+</h2>
 
-<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase text-[#004aad] text-center">
+<h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase text-[#004aad] text-center">
 
 AMAZING COLLEGES.
 
-</h1>
+</h2>
 
 
 <div className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
