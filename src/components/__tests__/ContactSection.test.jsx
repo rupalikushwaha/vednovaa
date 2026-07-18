@@ -53,13 +53,20 @@ describe("ContactSection WhatsApp submission", () => {
 
     fireEvent.click(submitButton());
 
-    expect(trackEvent).toHaveBeenCalledTimes(2);
-    expect(trackEvent).toHaveBeenNthCalledWith(1, "contact_form_submit", {
-      enquiry_type: enquiryType,
+    expect(trackEvent).toHaveBeenCalledTimes(3);
+    expect(trackEvent).toHaveBeenNthCalledWith(1, "form_start", {
+      form_name: "contact_form",
       page_path: "/contactus",
       page_title: "Contact Us",
     });
-    expect(trackEvent).toHaveBeenNthCalledWith(2, "whatsapp_redirect", expect.objectContaining({
+    expect(trackEvent).toHaveBeenNthCalledWith(2, "contact_form_submit", {
+      enquiry_type: enquiryType,
+      form_name: "contact_form",
+      page_path: "/contactus",
+      page_title: "Contact Us",
+      redirect_destination: "whatsapp",
+    });
+    expect(trackEvent).toHaveBeenNthCalledWith(3, "whatsapp_redirect", expect.objectContaining({
       enquiry_type: enquiryType,
       redirect_type: "automatic",
       page_path: "/contactus",
@@ -68,6 +75,14 @@ describe("ContactSection WhatsApp submission", () => {
     expect(navigationSpy).toHaveBeenCalledTimes(1);
     expect(decodeURIComponent(navigationSpy.mock.calls[0][0])).toContain(messageText);
     expect(screen.getByRole("button", { name: /submitting/i })).toBeDisabled();
+
+    const analyticsPayload = JSON.stringify(trackEvent.mock.calls);
+    expect(analyticsPayload).not.toContain("Jane Doe");
+    expect(analyticsPayload).not.toContain("jane@example.com");
+    expect(analyticsPayload).not.toContain("98765");
+    expect(analyticsPayload).not.toContain("Vednovaa College");
+    expect(analyticsPayload).not.toContain("Placement Cell");
+    expect(analyticsPayload).not.toContain("Please share programme details");
   });
 
   it("shows validation errors without tracking or opening WhatsApp", () => {
@@ -89,7 +104,8 @@ describe("ContactSection WhatsApp submission", () => {
     fireEvent.submit(form);
     fireEvent.submit(form);
 
-    expect(trackEvent).toHaveBeenCalledTimes(2);
+    expect(trackEvent).toHaveBeenCalledTimes(3);
+    expect(trackEvent.mock.calls.filter(([name]) => name === "form_start")).toHaveLength(1);
     expect(trackEvent.mock.calls.filter(([name]) => name === "contact_form_submit")).toHaveLength(1);
     expect(trackEvent.mock.calls.filter(([name]) => name === "whatsapp_redirect")).toHaveLength(1);
 
@@ -97,6 +113,24 @@ describe("ContactSection WhatsApp submission", () => {
     callback();
     act(() => { jest.advanceTimersByTime(400); });
     expect(navigationSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("fires form_start only once and includes enquiry_type only when selected first", () => {
+    render(<ContactSection />);
+    fireEvent.change(screen.getByLabelText(/how can we help you/i), {
+      target: { value: "Request Product Demo" },
+    });
+    fireEvent.change(screen.getByLabelText(/name and surname/i), {
+      target: { value: "Jane Doe" },
+    });
+
+    expect(trackEvent).toHaveBeenCalledTimes(1);
+    expect(trackEvent).toHaveBeenCalledWith("form_start", {
+      enquiry_type: "product_demo",
+      form_name: "contact_form",
+      page_path: "/contactus",
+      page_title: "Contact Us",
+    });
   });
 
   it("uses the invisible fallback when the GA4 callback does not run", () => {

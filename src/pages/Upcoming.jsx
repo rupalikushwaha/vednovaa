@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 const Upcoming = () => {
   const title = "Upcoming College Training Programs and Partnerships | Vednovaa";
   const description = "Partner with Vednovaa for upcoming college workshops, AI/ML bootcamps, cybersecurity training, hackathons and placement readiness programs.";
-  const canonical = "https://vednovaa.com/upcoming";
+  const canonical = "https://www.vednovaa.com/upcoming";
   const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">

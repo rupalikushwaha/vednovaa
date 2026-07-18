@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 const PrivacyPolicy = () => {
   const title = "Privacy Policy | Vednovaa";
   const description = "Read Vednovaa's privacy policy and understand how information collected through the website is handled.";
-  const canonical = "https://vednovaa.com/privacy-policy";
+  const canonical = "https://www.vednovaa.com/privacy-policy";
   const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">

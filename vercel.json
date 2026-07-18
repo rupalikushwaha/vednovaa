@@ -1,8 +1,14 @@
 {
+  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/services", "destination": "/index.html" },
+    { "source": "/products", "destination": "/index.html" },
+    { "source": "/casestudies", "destination": "/index.html" },
+    { "source": "/contactus", "destination": "/index.html" },
+    { "source": "/terms-and-conditions", "destination": "/index.html" },
+    { "source": "/privacy-policy", "destination": "/index.html" },
+    { "source": "/cb-bhandari", "destination": "/index.html" },
+    { "source": "/oxford-college", "destination": "/index.html" },
+    { "source": "/upcoming", "destination": "/index.html" }
   ]
 }

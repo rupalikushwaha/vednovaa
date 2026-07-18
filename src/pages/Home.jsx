@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 const title = "Placement Readiness, AI/ML and Cybersecurity Programs for Colleges | Vednovaa";
 const description = "Vednovaa helps colleges improve student placement readiness through practical AI/ML, cybersecurity programs, hackathons and industry-focused simulations.";
-const canonical = "https://vednovaa.com/";
+const canonical = "https://www.vednovaa.com/";
 const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
 
 const ImageSlider = lazy(() => import("../components/ImageSlider"));

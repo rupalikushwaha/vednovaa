@@ -5,7 +5,7 @@ function Products(){
 
 const title = "Cybersecurity Simulation and Placement Readiness Products | Vednovaa";
 const description = "Explore Vednovaa's technology products for cybersecurity simulations, student readiness assessment and practical experiential learning.";
-const canonical = "https://vednovaa.com/products";
+const canonical = "https://www.vednovaa.com/products";
 const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
 
 return(

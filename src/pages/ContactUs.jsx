@@ -6,7 +6,7 @@ function ContactUs(){
 
 const title = "Contact Vednovaa | College Training and Partnership Enquiries";
 const description = "Contact Vednovaa for college partnerships, placement readiness programs, AI/ML training, cybersecurity sessions and institutional enquiries.";
-const canonical = "https://vednovaa.com/contactus";
+const canonical = "https://www.vednovaa.com/contactus";
 const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
 
 return(

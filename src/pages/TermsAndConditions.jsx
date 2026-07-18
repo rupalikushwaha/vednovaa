@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 const TermsAndConditions = () => {
   const title = "Terms and Conditions | Vednovaa";
   const description = "Read the terms and conditions governing the use of Vednovaa's website, services and programs.";
-  const canonical = "https://vednovaa.com/terms-and-conditions";
+  const canonical = "https://www.vednovaa.com/terms-and-conditions";
   const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">

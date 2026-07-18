@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 const OxfordCollege = () => {
   const title = "Oxford College AI and Machine Learning Bootcamp | Vednovaa";
   const description = "Explore Vednovaa's practical AI and machine learning bootcamp at The Oxford College of Engineering, featuring live coding and industry use cases.";
-  const canonical = "https://vednovaa.com/oxford-college";
+  const canonical = "https://www.vednovaa.com/oxford-college";
   const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
   return (
     <section className="w-full bg-white">

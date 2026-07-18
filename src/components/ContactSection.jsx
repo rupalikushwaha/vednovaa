@@ -103,8 +103,22 @@ const ContactSection = () => {
   const submissionLockRef = useRef(false);
   const navigationStartedRef = useRef(false);
   const fallbackTimerRef = useRef(null);
+  const formStartTrackedRef = useRef(false);
 
   const handleChange = (e) => {
+    if (!formStartTrackedRef.current) {
+      formStartTrackedRef.current = true;
+      const formStartParameters = {
+        ...getPageParameters(),
+        form_name: "contact_form",
+      };
+      const selectedEnquiryType = e.target.name === "enquiryType" ? ENQUIRY_TYPES[e.target.value] : undefined;
+      if (selectedEnquiryType) {
+        formStartParameters.enquiry_type = selectedEnquiryType;
+      }
+      trackEvent("form_start", formStartParameters);
+    }
+
     setStatus("idle");
     setErrorMessage("");
     setFormData((prev) => ({
@@ -195,6 +209,8 @@ const ContactSection = () => {
     trackEvent("contact_form_submit", {
       ...getPageParameters(),
       enquiry_type: payload.enquiryType,
+      form_name: "contact_form",
+      redirect_destination: "whatsapp",
     });
 
     fallbackTimerRef.current = window.setTimeout(navigateOnce, ANALYTICS_FALLBACK_MS);

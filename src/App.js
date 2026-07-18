@@ -32,7 +32,10 @@ export function configureGoogleAnalytics(pagePath) {
 
   if (window.__vednovaaGaConfiguredPath !== pagePath) {
     window.__vednovaaGaConfiguredPath = pagePath;
-    gtag("config", GA_ID, { page_path: pagePath });
+    gtag("config", GA_ID, {
+      page_path: pagePath,
+      page_title: document.title,
+    });
   }
 }
 
@@ -49,37 +52,20 @@ export function loadGoogleAnalyticsScript() {
 }
 
 if (typeof window !== "undefined") {
-  configureGoogleAnalytics(window.location.pathname);
-}
-
-function runWhenIdle(callback) {
-  if (typeof window === "undefined") return undefined;
-
-  if (window.matchMedia("(max-width: 1023px)").matches) {
-    const id = window.setTimeout(callback, 15000);
-    return () => window.clearTimeout(id);
-  }
-
-  if ("requestIdleCallback" in window) {
-    const id = window.requestIdleCallback(callback, { timeout: 2500 });
-    return () => window.cancelIdleCallback(id);
-  }
-
-  const id = window.setTimeout(callback, 1800);
-  return () => window.clearTimeout(id);
+  ensureGtagQueue();
 }
 
 function GoogleAnalytics() {
   const location = useLocation();
+  const pagePath = `${location.pathname}${location.search}`;
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
 
-    return runWhenIdle(() => {
-      loadGoogleAnalyticsScript();
-      configureGoogleAnalytics(location.pathname);
-    });
-  }, [location.pathname]);
+    configureGoogleAnalytics(pagePath);
+    loadGoogleAnalyticsScript();
+    return undefined;
+  }, [pagePath]);
 
   return null;
 }

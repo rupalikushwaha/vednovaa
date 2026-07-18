@@ -4,7 +4,7 @@ function CaseStudies(){
 
 const title = "College Training Case Studies and Student Outcomes | Vednovaa";
 const description = "Explore Vednovaa's college sessions, practical programs and student outcomes across AI/ML, cybersecurity and placement readiness.";
-const canonical = "https://vednovaa.com/casestudies";
+const canonical = "https://www.vednovaa.com/casestudies";
 const socialImage = "https://res.cloudinary.com/dmjunqp6p/image/upload/f_auto,q_80,w_300/v1780596718/VEDNOVAA_-_1-removebg-preview_tszg2f.png";
 
 return(
