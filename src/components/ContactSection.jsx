@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { getPageParameters, trackEvent } from "../utils/analytics";
 
 const initialForm = {
@@ -12,12 +12,18 @@ const initialForm = {
 };
 
 const WHATSAPP_NUMBER = "918779171453";
-const SUBMIT_DELAY_MS = 400;
+const ANALYTICS_FALLBACK_MS = 400;
 
 const ENQUIRY_TYPES = {
   "Request for Diagnostic Call": "diagnostic_call",
   "Request Product Demo": "product_demo",
   "General Enquiry": "general_enquiry",
+};
+
+export const whatsappNavigation = {
+  assign(url) {
+    window.location.assign(url);
+  },
 };
 
 const buildWhatsAppMessage = (formData) => {
@@ -94,25 +100,9 @@ const ContactSection = () => {
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [redirectCountdown, setRedirectCountdown] = useState(3);
-  const whatsappUrlRef = useRef("");
-  const successfulEnquiryTypeRef = useRef("");
-  const automaticRedirectTrackedRef = useRef(false);
-  const manualRedirectTrackedRef = useRef(false);
-  const redirectTimerRef = useRef(null);
-
-  const trackWhatsAppRedirect = (redirectType) => {
-    const enquiryType = successfulEnquiryTypeRef.current;
-    if (!enquiryType) {
-      return;
-    }
-
-    trackEvent("whatsapp_redirect", {
-      ...getPageParameters(),
-      enquiry_type: enquiryType,
-      redirect_type: redirectType,
-    });
-  };
+  const submissionLockRef = useRef(false);
+  const navigationStartedRef = useRef(false);
+  const fallbackTimerRef = useRef(null);
 
   const handleChange = (e) => {
     setStatus("idle");
@@ -123,59 +113,10 @@ const ContactSection = () => {
     }));
   };
 
-  const handleContinueToWhatsApp = () => {
-    if (!whatsappUrlRef.current) {
-      return;
-    }
-
-    if (redirectTimerRef.current) {
-      window.clearTimeout(redirectTimerRef.current);
-      redirectTimerRef.current = null;
-    }
-
-    if (!manualRedirectTrackedRef.current) {
-      manualRedirectTrackedRef.current = true;
-      trackWhatsAppRedirect("manual");
-    }
-    const popup = window.open(whatsappUrlRef.current, "_blank", "noopener,noreferrer");
-    if (!popup) {
-      setErrorMessage("Please allow pop-ups to continue to WhatsApp.");
-    }
-  };
-
-  useEffect(() => {
-    if (status !== "success") {
-      return undefined;
-    }
-
-    if (redirectCountdown <= 0) {
-      return undefined;
-    }
-
-    redirectTimerRef.current = window.setTimeout(() => {
-      if (redirectCountdown === 1) {
-        if (!automaticRedirectTrackedRef.current) {
-          automaticRedirectTrackedRef.current = true;
-          trackWhatsAppRedirect("automatic");
-        }
-        window.open(whatsappUrlRef.current, "_blank", "noopener,noreferrer");
-      } else {
-        setRedirectCountdown((prev) => prev - 1);
-      }
-    }, 1000);
-
-    return () => {
-      if (redirectTimerRef.current) {
-        window.clearTimeout(redirectTimerRef.current);
-        redirectTimerRef.current = null;
-      }
-    };
-  }, [redirectCountdown, status]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (isSubmitting) {
+    if (submissionLockRef.current) {
       return;
     }
 
@@ -215,46 +156,55 @@ const ContactSection = () => {
     setStatus("submitting");
     setErrorMessage("");
     setIsSubmitting(true);
+    submissionLockRef.current = true;
+    navigationStartedRef.current = false;
 
     const payload = {
-      ...formData,
+      name: trimmedName,
+      email: trimmedEmail,
+      phone: trimmedPhone,
       institution: trimmedInstitution,
       designation: trimmedDesignation,
-      enquiryType: trimmedEnquiryType,
+      enquiryType: ENQUIRY_TYPES[trimmedEnquiryType],
+      message: trimmedMessage,
     };
 
-    const message = buildWhatsAppMessage(payload);
+    const message = buildWhatsAppMessage({ ...payload, enquiryType: trimmedEnquiryType });
     const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    whatsappUrlRef.current = whatsappURL;
-    successfulEnquiryTypeRef.current = ENQUIRY_TYPES[trimmedEnquiryType];
-    automaticRedirectTrackedRef.current = false;
-    manualRedirectTrackedRef.current = false;
+    const navigateOnce = () => {
+      if (navigationStartedRef.current) {
+        return;
+      }
+      navigationStartedRef.current = true;
+      if (fallbackTimerRef.current) {
+        window.clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = null;
+      }
 
-    window.setTimeout(() => {
       try {
-        automaticRedirectTrackedRef.current = true;
-        trackWhatsAppRedirect("automatic");
-        const popup = window.open(whatsappURL, "_blank", "noopener,noreferrer");
-        if (!popup) {
-          throw new Error("popup-blocked");
-        }
-
-        setFormData(initialForm);
-        setStatus("success");
-        setRedirectCountdown(3);
-        setIsSubmitting(false);
-        setErrorMessage("");
-        trackEvent("contact_form_submit", {
-          ...getPageParameters(),
-          enquiry_type: successfulEnquiryTypeRef.current,
-          form_name: "contact_form",
-        });
+        whatsappNavigation.assign(whatsappURL);
       } catch (error) {
+        navigationStartedRef.current = false;
+        submissionLockRef.current = false;
+        setIsSubmitting(false);
         setStatus("error");
         setErrorMessage("We could not complete your submission. Please try again.");
-        setIsSubmitting(false);
       }
-    }, SUBMIT_DELAY_MS);
+    };
+
+    trackEvent("contact_form_submit", {
+      ...getPageParameters(),
+      enquiry_type: payload.enquiryType,
+    });
+
+    fallbackTimerRef.current = window.setTimeout(navigateOnce, ANALYTICS_FALLBACK_MS);
+    trackEvent("whatsapp_redirect", {
+      ...getPageParameters(),
+      enquiry_type: payload.enquiryType,
+      redirect_type: "automatic",
+      event_callback: navigateOnce,
+      event_timeout: ANALYTICS_FALLBACK_MS,
+    });
   };
 
   return (
@@ -412,37 +362,6 @@ const ContactSection = () => {
 
                   {status === "error" && (
                     <p className="mb-3 text-sm text-red-600" role="alert">{errorMessage}</p>
-                  )}
-
-                  {status === "success" && (
-                    <div
-                      className="mb-3 overflow-hidden rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-blue-50 p-4 shadow-md ring-1 ring-emerald-100"
-                      role="status"
-                      aria-live="polite"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden="true">
-                            <path d="M5 12.5 9.5 17 19 7.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-base font-semibold text-emerald-700">Thank You!</p>
-                          <p className="mt-1 leading-6 text-slate-700">Your enquiry has been submitted successfully.</p>
-                          <p className="mt-1 leading-6 text-slate-600">You will now be redirected to WhatsApp so we can continue the conversation.</p>
-                          <div className="mt-3 inline-flex items-center rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-[#004aad] shadow-sm ring-1 ring-slate-200">
-                            Redirecting to WhatsApp in {redirectCountdown} seconds...
-                          </div>
-                          <button
-                            type="button"
-                            onClick={handleContinueToWhatsApp}
-                            className="mt-3 inline-flex items-center justify-center rounded-md bg-[#004aad] px-3.5 py-2 text-sm font-medium text-white shadow-sm transition duration-300 hover:bg-[#003b8a]"
-                          >
-                            Continue to WhatsApp
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   )}
 
                   <div className="flex justify-end">
