@@ -21,8 +21,15 @@ const ENQUIRY_TYPES = {
 };
 
 export const whatsappNavigation = {
-  assign(url) {
-    window.location.assign(url);
+  open() {
+    const popup = window.open("about:blank", "_blank");
+    if (popup) {
+      popup.opener = null;
+    }
+    return popup;
+  },
+  assign(popup, url) {
+    popup.location.assign(url);
   },
 };
 
@@ -185,6 +192,15 @@ const ContactSection = () => {
 
     const message = buildWhatsAppMessage({ ...payload, enquiryType: trimmedEnquiryType });
     const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const whatsappWindow = whatsappNavigation.open();
+    if (!whatsappWindow) {
+      submissionLockRef.current = false;
+      setIsSubmitting(false);
+      setStatus("error");
+      setErrorMessage("We could not complete your submission. Please try again.");
+      return;
+    }
+
     const navigateOnce = () => {
       if (navigationStartedRef.current) {
         return;
@@ -196,7 +212,7 @@ const ContactSection = () => {
       }
 
       try {
-        whatsappNavigation.assign(whatsappURL);
+        whatsappNavigation.assign(whatsappWindow, whatsappURL);
       } catch (error) {
         navigationStartedRef.current = false;
         submissionLockRef.current = false;

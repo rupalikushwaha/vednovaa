@@ -24,10 +24,14 @@ const fillRequiredFields = (enquiryType) => {
 const submitButton = () => screen.getByRole("button", { name: /^submit$/i });
 
 describe("ContactSection WhatsApp submission", () => {
+  let openSpy;
   let navigationSpy;
+  let popup;
 
   beforeEach(() => {
     jest.useFakeTimers();
+    popup = { location: { assign: jest.fn() }, opener: window };
+    openSpy = jest.spyOn(whatsappNavigation, "open").mockReturnValue(popup);
     navigationSpy = jest.spyOn(whatsappNavigation, "assign").mockImplementation(() => {});
     trackEvent.mockReset();
     trackEvent.mockImplementation((eventName, parameters) => {
@@ -38,6 +42,7 @@ describe("ContactSection WhatsApp submission", () => {
   });
 
   afterEach(() => {
+    openSpy.mockRestore();
     navigationSpy.mockRestore();
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
@@ -73,7 +78,8 @@ describe("ContactSection WhatsApp submission", () => {
       page_title: "Contact Us",
     }));
     expect(navigationSpy).toHaveBeenCalledTimes(1);
-    expect(decodeURIComponent(navigationSpy.mock.calls[0][0])).toContain(messageText);
+    expect(navigationSpy.mock.calls[0][0]).toBe(popup);
+    expect(decodeURIComponent(navigationSpy.mock.calls[0][1])).toContain(messageText);
     expect(screen.getByRole("button", { name: /submitting/i })).toBeDisabled();
 
     const analyticsPayload = JSON.stringify(trackEvent.mock.calls);
@@ -91,6 +97,7 @@ describe("ContactSection WhatsApp submission", () => {
 
     expect(screen.getByRole("alert")).toHaveTextContent("Please select an enquiry type.");
     expect(trackEvent).not.toHaveBeenCalled();
+    expect(openSpy).not.toHaveBeenCalled();
     expect(navigationSpy).not.toHaveBeenCalled();
     expect(submitButton()).toBeEnabled();
   });
@@ -113,6 +120,7 @@ describe("ContactSection WhatsApp submission", () => {
     callback();
     act(() => { jest.advanceTimersByTime(400); });
     expect(navigationSpy).toHaveBeenCalledTimes(1);
+    expect(openSpy).toHaveBeenCalledTimes(1);
   });
 
   it("fires form_start only once and includes enquiry_type only when selected first", () => {
@@ -155,6 +163,20 @@ describe("ContactSection WhatsApp submission", () => {
     fireEvent.click(submitButton());
 
     expect(screen.getByRole("alert")).toHaveTextContent("We could not complete your submission. Please try again.");
+    expect(submitButton()).toBeEnabled();
+  });
+
+  it("keeps the website open and restores Submit if a new tab is blocked", () => {
+    openSpy.mockReturnValue(null);
+    render(<ContactSection />);
+    fillRequiredFields("Request for Diagnostic Call");
+
+    fireEvent.click(submitButton());
+
+    expect(screen.getByRole("alert")).toHaveTextContent("We could not complete your submission. Please try again.");
+    expect(trackEvent.mock.calls.filter(([name]) => name === "contact_form_submit")).toHaveLength(0);
+    expect(trackEvent.mock.calls.filter(([name]) => name === "whatsapp_redirect")).toHaveLength(0);
+    expect(navigationSpy).not.toHaveBeenCalled();
     expect(submitButton()).toBeEnabled();
   });
 });
