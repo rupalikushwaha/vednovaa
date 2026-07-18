@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import { ensureGtagQueue } from "./utils/analytics";
 
 const Home = lazy(() => import("./pages/Home"));
 const Services = lazy(() => import("./pages/Services"));
@@ -17,6 +18,39 @@ const CBBhandari = lazy(() => import("./pages/CBBhandari"));
 const OxfordCollege = lazy(() => import("./pages/OxfordCollege"));
 const Upcoming = lazy(() => import("./pages/Upcoming"));
 const GA_ID = "G-6P8PD0YJD9";
+
+export function configureGoogleAnalytics(pagePath) {
+  if (typeof window === "undefined") return;
+
+  const gtag = ensureGtagQueue();
+  if (!gtag) return;
+
+  if (!window.__vednovaaGaInitialized) {
+    window.__vednovaaGaInitialized = true;
+    gtag("js", new Date());
+  }
+
+  if (window.__vednovaaGaConfiguredPath !== pagePath) {
+    window.__vednovaaGaConfiguredPath = pagePath;
+    gtag("config", GA_ID, { page_path: pagePath });
+  }
+}
+
+export function loadGoogleAnalyticsScript() {
+  if (typeof window === "undefined" || typeof document === "undefined" || window.__vednovaaGaLoaded) {
+    return;
+  }
+
+  window.__vednovaaGaLoaded = true;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(script);
+}
+
+if (typeof window !== "undefined") {
+  configureGoogleAnalytics(window.location.pathname);
+}
 
 function runWhenIdle(callback) {
   if (typeof window === "undefined") return undefined;
@@ -42,22 +76,8 @@ function GoogleAnalytics() {
     if (typeof window === "undefined") return undefined;
 
     return runWhenIdle(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = window.gtag || function gtag() {
-        window.dataLayer.push(arguments);
-      };
-
-      if (!window.__vednovaaGaLoaded) {
-        window.__vednovaaGaLoaded = true;
-        window.gtag("js", new Date());
-
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-        document.head.appendChild(script);
-      }
-
-      window.gtag("config", GA_ID, { page_path: location.pathname });
+      loadGoogleAnalyticsScript();
+      configureGoogleAnalytics(location.pathname);
     });
   }, [location.pathname]);
 

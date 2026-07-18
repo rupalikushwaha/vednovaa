@@ -1,10 +1,22 @@
-export function trackEvent(eventName, parameters = {}) {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") {
-    return;
+export function ensureGtagQueue() {
+  if (typeof window === "undefined") {
+    return null;
   }
 
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() {
+    window.dataLayer.push(arguments);
+  };
+
+  return window.gtag;
+}
+
+export function trackEvent(eventName, parameters = {}) {
   try {
-    window.gtag("event", eventName, parameters);
+    const gtag = ensureGtagQueue();
+    if (gtag) {
+      gtag("event", eventName, parameters);
+    }
   } catch (error) {
     // Analytics must never interrupt the visitor's journey.
   }
@@ -20,3 +32,6 @@ export function getPageParameters() {
     page_title: document.title,
   };
 }
+
+// Create the command queue as soon as this shared analytics module is evaluated.
+ensureGtagQueue();
