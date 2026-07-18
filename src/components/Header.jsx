@@ -70,13 +70,13 @@ const Header = () => {
           <div className="absolute w-6 h-6 bg-white rounded-full opacity-70"></div>
         </div>
 
-        <div className="items-center justify-center top-138 relative left-120 border-1 border-white w-52 rounded-2xl z-[16]">
-          <div className="text-lg font-semibold text-gray-700 text-center border-white border-1 w-50 h-9 rounded-2xl bg-white pt-1 m-1">
+        <div className="relative left-[48%] top-138 z-[16] w-52 -translate-x-1/2 rounded-2xl border-1 border-white">
+          <div className="m-1 h-9 w-50 rounded-2xl border-1 border-white bg-white pt-1 text-center text-lg font-semibold text-gray-700">
             Unlock Your Potential
           </div>
         </div>
-        <div className="items-center justify-center top-140 relative left-113 z-[16]">
-          <div className="text-3xl font-bold text-white italic">
+        <div className="relative left-[48%] top-140 z-[16] w-fit -translate-x-1/2 text-center">
+          <div className="text-3xl font-bold italic text-white">
             Where curiosity , <br />meets capability
           </div>
         </div>
